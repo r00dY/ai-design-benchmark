@@ -1,0 +1,12 @@
+[
+  {
+    "name": "openai.com grid 1",
+    "problem": "Title and description texts of the grid are displaced.",
+    "image_set": "0"
+  },
+  {
+    "name": "nike.com banner 1",
+    "problem": "The visibility of the main stack (title, description and buttons) is limited.",
+    "image_set": "1"
+  }
+]
