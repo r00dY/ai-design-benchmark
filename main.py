@@ -1,6 +1,8 @@
 import os
 import base64
 import io
+import random
+import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
@@ -14,79 +16,160 @@ Hey, here a couple screenshots of a section from a webpage. Each section has the
 
 Only one of the sections is correctly and cleanly designed, the rest have some obvious design flaws. Tell me which one is correct.
 
-Start your answer with "A", "B", "C" or "D", then give me your reasoning."""
+Please make the first 2 characters of your answer #A, #B, #C or #D depending on which section you think is correctly designed. This is SUPER IMPORTANT. After that you can give your reasoning.
+"""
 
-# PROMPT = """"
-# Hey, here a couple screenshots of a section from a webpage. Each section has the same content but is designed a bit differently. Sections files are labelled "A", "B", "C" and "D".
-#
-# Can you tell me what Section "A" show?"""
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:
     return base64.b64encode(image_file.read()).decode('utf-8')
 
 
+MAX_CORRECT_ITERATIONS = 4
+MAX_TOTAL_ITERATIONS = 12
+
 def main():
     print("Initializing OpenAI client...")
     client = OpenAI(api_key=OPENAI_SECRET_KEY)
 
-    print("Printing labels on images...")
-    imageA = getImageWithLabel("Section A:", "./data/screenshots/1/A.png")
-    imageB = getImageWithLabel("Section B:", "./data/screenshots/1/B.png")
-    imageC = getImageWithLabel("Section C:", "./data/screenshots/1/C.png")
-    imageD = getImageWithLabel("Section D:", "./data/screenshots/1/D.png")
 
-#     imageA.save("A.png")
-#     imageB.save("B.png")
-#     imageC.save("C.png")
-#     imageD.save("D.png")
 
-    print("Calling API...")
-    response = client.chat.completions.create(
-        model="gpt-4-vision-preview",
-        max_tokens=2048,
-        messages=[
-            {
-                "role": "user",
-                "content": [
+    ## TODO
+    ## 1. Iterate over all images
+    ## 2. Don't save to JSON, just to array
+    ## 3. Save to json at the end
+
+    results = []
+
+    for dataset_index in range(2):
+        print(f"######### DATASET ENTRY {dataset_index} #########")
+
+        path_prefix = f"./data/screenshots/{dataset_index}"
+
+        correctIterationIndex = 0
+
+        for iterationIndex in range(0, MAX_TOTAL_ITERATIONS):
+
+            print("--------------------")
+            print(f"Iteration number: {iterationIndex + 1}")
+
+
+            indexes = [0, 1, 2, 3]
+            random.shuffle(indexes)
+
+            if (indexes[0] == 0):
+                correctAnswer = "A"
+            elif (indexes[1] == 0):
+                correctAnswer = "B"
+            elif (indexes[2] == 0):
+                correctAnswer = "C"
+            elif (indexes[3] == 0):
+                correctAnswer = "D"
+
+            print("Printing labels on images...")
+
+            imageA = getImageWithLabel("Section A:", f"{path_prefix}/{indexes[0]}.png")
+            imageB = getImageWithLabel("Section B:", f"{path_prefix}/{indexes[1]}.png")
+            imageC = getImageWithLabel("Section C:", f"{path_prefix}/{indexes[2]}.png")
+            imageD = getImageWithLabel("Section D:", f"{path_prefix}/{indexes[3]}.png")
+
+            print("Calling API...")
+            response = client.chat.completions.create(
+                model="gpt-4-vision-preview",
+                max_tokens=2048,
+                messages=[
                     {
-                        "type": "text",
-                        "text": PROMPT
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": PROMPT
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{imageToBase64(imageA)}",
+                                    "detail": "high"
+                                }
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{imageToBase64(imageB)}",
+                                    "detail": "high"
+                                }
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{imageToBase64(imageC)}",
+                                    "detail": "high"
+                                }
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/png;base64,{imageToBase64(imageD)}",
+                                    "detail": "high"
+                                }
+                            }
+                        ]
                     },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{imageToBase64(imageA)}",
-                            "detail": "high"
-                        }
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{imageToBase64(imageB)}",
-                            "detail": "high"
-                        }
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{imageToBase64(imageC)}",
-                            "detail": "high"
-                        }
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{imageToBase64(imageD)}",
-                            "detail": "high"
-                        }
-                    }
                 ]
-            },
-        ]
-    )
+            )
 
-    print(response.choices[0].message.content)
+            parsedResponse = parseResponse(response.choices[0].message.content)
+
+            if (parsedResponse == None):
+                if (iterationIndex == MAX_TOTAL_ITERATIONS - 1):
+                    results.append({
+                        "resultStatus": "error"
+                    })
+                    print("ERROR")
+
+            else:
+                realAnswer = parsedResponse[0]
+                reasoning = parsedResponse[1]
+
+                if ((realAnswer == correctAnswer and correctIterationIndex == (MAX_CORRECT_ITERATIONS - 1)) or realAnswer != correctAnswer):
+                    resultStatus = "correct" if correctAnswer == realAnswer else "wrong"
+
+                    print("Result: " + resultStatus)
+
+                    output_path_prefix = path_prefix.replace("data", "results")
+
+                    os.makedirs(output_path_prefix, exist_ok=True)
+
+                    imageA.save(f"{output_path_prefix}/A.png")
+                    imageB.save(f"{output_path_prefix}/B.png")
+                    imageC.save(f"{output_path_prefix}/C.png")
+                    imageD.save(f"{output_path_prefix}/D.png")
+
+                    results.append({
+                       "resultStatus": resultStatus,
+                       "correctAnswer": correctAnswer,
+                       "realAnswer": realAnswer,
+                       "reasoning": reasoning,
+                       "try": correctIterationIndex + 1
+                    })
+
+                    break
+
+                correctIterationIndex += 1
+
+    json_string = json.dumps(results, indent=4)
+
+    with open('results/data.json', 'w') as file:
+        file.write(json_string)
+
+
+
+
+def parseResponse(response):
+    if response and response[0] == '#' and response[1] in ('A', 'B', 'C', 'D'):
+        return (response[1], response[2:])
+    else:
+        return None
 
 
 def getImageWithLabel(label, image_path):

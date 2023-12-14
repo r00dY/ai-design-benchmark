@@ -1,0 +1,16 @@
+[
+    {
+        "resultStatus": "wrong",
+        "correctAnswer": "C",
+        "realAnswer": "D",
+        "reasoning": " One of the images you provided appears to be designed with a clear layout and proper alignment. This image has a clean and professional look, with the contents well-organized and the text easily readable. The design seems free from the obvious issues present in the other sections, such as overlapping elements, obscured text, and cluttered visuals. The correct section maintains a balance of imagery and text, making it the most effective design among the options provided.",
+        "try": 1
+    },
+    {
+        "resultStatus": "wrong",
+        "correctAnswer": "B",
+        "realAnswer": "D",
+        "reasoning": " The correct and cleanly designed section appears to be Section D. Here's why:\n\n- In Section A, the title text \"LOREM IPSUM DOLOR SIT\" runs over the image of the people, which can make it less legible due to the lack of contrast and complexity of the background.\n- Section B also has the same issue as Section A, with text overlapping the complex part of the image.\n- Section C has two major issues: First, the main title text overlaps with the heads of the people in the image, which disrupts the readability of the title. Second, the call-to-action buttons \"Lorem\" and \"Ipsum\" are overlapping with the legs of the person on the right, which affects both the visual hierarchy and the usability of the page.\n- In contrast, Section D has the text aligned to the left within a clean space that doesn't overlap with the image of the people running. Additionally, the call-to-action buttons are clearly visible and not obstructed by the image. This ensures that the text remains legible and the design is both aesthetically pleasing and functional.",
+        "try": 1
+    }
+]
