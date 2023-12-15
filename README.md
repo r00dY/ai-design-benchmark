@@ -15,6 +15,12 @@ I created 12 similar experiments:
 2. I create 3 additional variants of this section, each one having obvious design flaws.
 3. I ask GPT4-V which one is correct.
 
+## Results
+
+**2/12 correct, 10/12 errors.**
+
+Success rate is only **16%** even though for the examples are absolutely trivial. The reasoning shows zero understanding of design harmony. Even the reasoning for correct answers is not very convincing.
+
 ### Example 1
 
 Here's a banner section from Nike website. The correct section is obviously A:
@@ -59,12 +65,6 @@ Reasoning again shows lack of fundamental understanding of design:
 > - Section D: The end of the sentence "We've trained GPT-3, an autoregressive language model with 175 billion parameters" is obscured by the background pattern, similar to Section A.
 > 
 > Only Section C does not seem to have any text readability issues caused by overlapping with the background pattern, making it the most cleanly designed section in terms of legibility and layout.
-
-## Results
-
-**2/12 correct, 10/12 errors.**
-
-Success rate is only **16%** even though for the examples are absolutely trivial. The reasoning shows zero understanding of design harmony. Even the reasoning for correct answers is not very convincing.
 
 ## How experiments are run?
 
