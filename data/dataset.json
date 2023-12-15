@@ -8,5 +8,45 @@
     "name": "nike.com banner 1",
     "problem": "The visibility of the main stack (title, description and buttons) is limited.",
     "image_set": "1"
+  },
+  {
+    "name": "openai.com grid 2",
+    "problem": "The stacks in grid cards are broken.",
+    "image_set": "2"
+  },
+  {
+    "name": "openai.com grid 3",
+    "problem": "The grid cards are either incorrectly resized or positioned",
+    "image_set": "3"
+  },
+  {
+    "name": "nike.com banner 2",
+    "problem": "The stack items in the banner are not positioned correctly with respect to each other.",
+    "image_set": "4"
+  },
+  {
+    "name": "nike.com banner 2",
+    "problem": "The stack items in the banner are not positioned correctly with respect to each other.",
+    "image_set": "4"
+  },
+  {
+    "name": "openai.com banner 1",
+    "problem": "The title, description and buttons are positioned in a chaotic manner",
+    "image_set": "5"
+  },
+  {
+    "name": "openai.com banner 2",
+    "problem": "Colors are making stuff unreadable",
+    "image_set": "6"
+  },
+  {
+    "name": "nike.com grid 1",
+    "problem": "The grid items are in chaos",
+    "image_set": "7"
+  },
+  {
+    "name": "nike.com quote 1",
+    "problem": "Text is either in a container that is too narrow, the text line height is too high, texts might be overlapping",
+    "image_set": "8"
   }
 ]

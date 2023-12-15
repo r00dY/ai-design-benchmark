@@ -12,17 +12,12 @@ load_dotenv()
 OPENAI_SECRET_KEY = os.getenv('OPENAI_SECRET_KEY')
 
 PROMPT = """
-Hey, here a couple screenshots of a section from a webpage. Each section has the same content but is designed a bit differently. Sections files are labelled "A", "B", "C" and "D".
+Hey, here a couple screenshots of a section from a webpage. Each section has the same content but is designed a bit differently. Sections are labelled "A", "B", "C" and "D".
 
 Only one of the sections is correctly and cleanly designed, the rest have some obvious design flaws. Tell me which one is correct.
 
 Please make the first 2 characters of your answer #A, #B, #C or #D depending on which section you think is correctly designed. This is SUPER IMPORTANT. After that you can give your reasoning.
 """
-
-
-def encode_image(image_path):
-  with open(image_path, "rb") as image_file:
-    return base64.b64encode(image_file.read()).decode('utf-8')
 
 
 MAX_CORRECT_ITERATIONS = 4
@@ -32,16 +27,9 @@ def main():
     print("Initializing OpenAI client...")
     client = OpenAI(api_key=OPENAI_SECRET_KEY)
 
-
-
-    ## TODO
-    ## 1. Iterate over all images
-    ## 2. Don't save to JSON, just to array
-    ## 3. Save to json at the end
-
     results = []
 
-    for dataset_index in range(2):
+    for dataset_index in range(12):
         print(f"######### DATASET ENTRY {dataset_index} #########")
 
         path_prefix = f"./data/screenshots/{dataset_index}"
