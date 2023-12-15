@@ -66,21 +66,6 @@ Reasoning again shows lack of fundamental understanding of design:
 > 
 > Only Section C does not seem to have any text readability issues caused by overlapping with the background pattern, making it the most cleanly designed section in terms of legibility and layout.
 
-## How experiments are run?
-
-1. In `data/screenshots` there are 12 sets of screenshots. `0.png` is correct and `1.png`, `2.png`, `3.png` are incorrect.
-2. Each experiment is run 4 times to remove randomness. Only if the model answers correctly 4/4 we treat experiment as successful.
-3. In each experiment run we randomize the images order and label the images so that the model knows which one is which.
-4. We use follownig prompt:
-
-> Hey, here a couple screenshots of a section from a webpage. Each section has the same content but is designed a bit differently. Sections are labelled "A", "B", "C" and "D".
->
-> Only one of the sections is correctly and cleanly designed, the rest have some obvious design flaws. Tell me which one is correct.
->
-> Please make the first 2 characters of your answer #A, #B, #C or #D depending on which section you think is correctly designed. This is SUPER IMPORTANT. After that you can give your reasoning.
-
-You can find the code in [main.py](./main.py) file.
-
 ## Thoughts
 
 **TL;DR; I think that LLMs are perfect for design understanding, they just haven't been pre-trained for it yet.**
@@ -106,6 +91,21 @@ So there are 2 facts:
 **I think it's a perfect use case for large transformer models.** If a large model was pre-trained with a huge amount of good designs (without any labeling) it would understand the rules about those designs in the same way designers do by watching hundreds of inspirations a day. And it's gonna be a game changer.
 
 The experiments in this repo show that GPT4-V is not there yet. My feeling is that it wasn't pre-trained on enough designs.
+
+## How experiments are run?
+
+1. In `data/screenshots` there are 12 sets of screenshots. `0.png` is correct and `1.png`, `2.png`, `3.png` are incorrect.
+2. Each experiment is run 4 times to remove randomness. Only if the model answers correctly 4/4 we treat experiment as successful.
+3. In each experiment run we randomize the images order and label the images so that the model knows which one is which.
+4. We use follownig prompt:
+
+> Hey, here a couple screenshots of a section from a webpage. Each section has the same content but is designed a bit differently. Sections are labelled "A", "B", "C" and "D".
+>
+> Only one of the sections is correctly and cleanly designed, the rest have some obvious design flaws. Tell me which one is correct.
+>
+> Please make the first 2 characters of your answer #A, #B, #C or #D depending on which section you think is correctly designed. This is SUPER IMPORTANT. After that you can give your reasoning.
+
+You can find the code in [main.py](./main.py) file.
 
 # All examples
 
