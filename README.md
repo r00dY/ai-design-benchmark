@@ -1,23 +1,23 @@
 # GPT4-V is terrible at web design
 
-This repo is a short set of experiments that tests whether GPT4-V understands web design.
+This repo is a short set of simple experiments that test whether GPT4-V understands web design.
 
-Short answer: It doesn't (yet).
+**Short answer:** It doesn't. (Yet).
 
 ## Background
 
-I recently tinkered a little bit in the realms of multi-modal models to see whether they can genereate good web designs (for the purpose of Easyblocks). At first I thought it would be probably possible but the deeper I went the more disappointed I was. It turns out that currently (as of 15.12.2023) GPT4-V is absolutely clueless about understanding even most basic design rules which makes me doubt whether it's capable (for now) to generate good designs.
+I recently played a lot with multi-modal models to see whether they can genereate good web designs (for the purpose of [Easyblocks](https://docs.easyblocks.io)). At first I thought it would be probably possible but the deeper I went the more disappointed I was. It turns out that currently (as of 15.12.2023) GPT4-V is absolutely clueless about understanding even most basic design rules which makes me doubt whether it's capable (for now) to generate good designs.
 
 ## Experiments
 
 I created 12 similar experiments:
-1. I make a screenshot of a section from a well-designed website (openai.com or nike.com)
-2. I create 3 additional variants of this section, each having obvious design flaws.
+1. I make a screenshot of a section from a well-designed website ([openai.com](https://openai.com) or [nike.com](https://nike.com))
+2. I create 3 additional variants of this section, each one having obvious design flaws.
 3. I ask GPT4-V which one is correct.
 
 ### Example 1
 
-Here's nike.com banner section. Obviously, section A is correct:
+Here's a banner section from Nike website. The correct section is obviously A:
 
 ![Banner Section](./results/screenshots/1/A.png)
 ![Banner Section](./results/screenshots/1/B.png)
@@ -26,7 +26,7 @@ Here's nike.com banner section. Obviously, section A is correct:
 
 GPT4-V answer: C ❌
 
-Reasoning makes zero sense:
+Reasoning:
 
 > Section C appears to be the correctly designed one based on the images provided. Here's the reasoning:
 >
@@ -37,9 +37,11 @@ Reasoning makes zero sense:
 >
 > Section C provides a clean and organized design by separating the image and text effectively, which is typically a good practice in web design for both aesthetics and functionality.
 
+The reasoning is very bad and shows a lack of basic understanding of design harmony.
+
 ### Example 2
 
-Here's open.ai grid section. Obivously, section A is correct:
+Here's another one, a grid section from OpenAI website. Section A is correct, the rest has obvious design errors:
 
 ![Banner Section](./results/screenshots/3/A.png)
 ![Banner Section](./results/screenshots/3/B.png)
@@ -48,7 +50,7 @@ Here's open.ai grid section. Obivously, section A is correct:
 
 GPT4-V answer: C ❌
 
-Reasoning again is not very convincing:
+Reasoning again shows lack of fundamental understanding of design:
 
 > Section C appears to be the most correctly and cleanly designed. The other sections have the following issues:
 > 
@@ -60,9 +62,9 @@ Reasoning again is not very convincing:
 
 ## Results
 
-2/12 correct, 10/12 errors.
+**2/12 correct, 10/12 errors.**
 
-Success rate only 16% even for the absolutely trivial use cases. The reasoning shows absolutely zero understanding of design harmony. Even the reasoning for correct answers is not convincing.
+Success rate is only **16%** even though for the examples are absolutely trivial. The reasoning shows zero understanding of design harmony. Even the reasoning for correct answers is not very convincing.
 
 ## How experiments are run?
 
@@ -77,17 +79,17 @@ Success rate only 16% even for the absolutely trivial use cases. The reasoning s
 >
 > Please make the first 2 characters of your answer #A, #B, #C or #D depending on which section you think is correctly designed. This is SUPER IMPORTANT. After that you can give your reasoning.
 
-You can find the code in main.py file.
+You can find the code in [main.py](./main.py) file.
 
 ## Thoughts
 
-TL;DR; I think that LLMs are perfect for design understanding, they just haven't been pre-trained for it yet.
+**TL;DR; I think that LLMs are perfect for design understanding, they just haven't been pre-trained for it yet.**
 
 Let's start with a basic question: why do things look good or bad?
 
 It's hard to answer this one with words. At the end of the day it all comes down to this feeling that design "clicks" or it doesn't. It's not about words, it's about a perceived feeling of visual harmony.
 
-Of course we can distill a lot of basic design rules:
+However, we can distill a lot of basic design rules:
 - text blocks shouldn't overlap
 - title should be larger than body text
 - stack items should be aligned etc.
@@ -103,7 +105,7 @@ So there are 2 facts:
 
 **I think it's a perfect use case for large transformer models.** If a large model was pre-trained with a huge amount of good designs (without any labeling) it would understand the rules about those designs in the same way designers do by watching hundreds of inspirations a day. And it's gonna be a game changer.
 
-The experiments in this repo show that GPT4-V is not there yet. My feeling is that it wasn't pre-trained on enough designs. But it's gonna be, it's just a matter of time.
+The experiments in this repo show that GPT4-V is not there yet. My feeling is that it wasn't pre-trained on enough designs.
 
 # All examples
 
